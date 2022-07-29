@@ -5,104 +5,92 @@ using UnityEngine.SceneManagement;
 
 public class Door : MonoBehaviour
 {
-    public GameObject thisRoom;
-    public GameObject nextRoom;
-    private EnemyChecker checker;
-    private GameObject checkerObject;
-    private Animator anim;
     public Animator SceneChangerAnim;
-    public bool GoodDoor;
-    public int direction;
     public Transform spawnPoint;
-    private GameObject RightDoor;
-    private GameObject LeftDoor;
-    private GameObject TopDoor;
-    private GameObject BottomDoor;
+
+    public bool isGood{get; private set;}
+
+    private GameObject thisRoom;
+    private GameObject nextRoom;
     private Transform Player;
-    private float timeBtwDamage = 1;
+    private Animator anim;
 
-    public void SetRoute(DungeonRoom dungeonRoom)
+    private bool isClosed;
+    private float damageCooldown = 1;
+
+    private void OnEnable()
     {
-        nextRoom = dungeonRoom.gameObject;
-    }
-    private void Start()
-    {
-        RightDoor = GameObject.FindGameObjectWithTag("Right Door");
-        LeftDoor = GameObject.FindGameObjectWithTag("Left Door");
-        BottomDoor = GameObject.FindGameObjectWithTag("Bottom Door");
-        TopDoor = GameObject.FindGameObjectWithTag("Top Door"); 
         Player = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
-
-
         GameObject SceneChanger = GameObject.FindGameObjectWithTag("SceneManager");
         SceneChangerAnim = SceneChanger.GetComponent<Animator>();
         anim = gameObject.GetComponent<Animator>();
-        checkerObject = GameObject.FindGameObjectWithTag("EnemyChecker");
-        checker = checkerObject.GetComponent<EnemyChecker>();
     }
-
     private void Update()
     {
-        timeBtwDamage -= Time.deltaTime;
+        damageCooldown -= Time.deltaTime;
     }
 
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Player") && checker.EveryMobDead == true)
+        if (collision.gameObject.CompareTag("Player") && !isClosed)
         {
-            Debug.Log(GoodDoor);
-            if (!GoodDoor )
+            if (!isGood)
             {
-                if (timeBtwDamage <= 0)
-                {
-                    timeBtwDamage = 1;
-                    Player.GetComponent<PlayerHealthSystem>().health--;
-                    SceneChangerAnim.SetTrigger("end");
-                }
+                GiveDamage();
             }
             else
             {
                 StartCoroutine(ChangeRoom());
             }
-            /*
-            if (GoodDoor)
-            {
-                StartCoroutine(ChangeRoom());
-            }
-            else
-            {
-                Application.LoadLevel(Application.loadedLevel);
-            }
-           */
         }
-        
+
     }
-    
-    public void doorClose()
+    public void SetRoute(DungeonRoom thisDun, DungeonRoom nextDun)
+    {
+        Debug.Log("Door from " + thisDun.name + " isGood is " + isGood);
+        thisRoom = thisDun.gameObject;
+        nextRoom = nextDun.gameObject;
+
+        if (thisRoom != nextRoom) isGood = true;
+        else isGood = false;
+    }
+    public void DoorClose()
     {
         FindObjectOfType<AudioManager>().Play("Door Close");
         anim.SetBool("Door Open", false);
+        isClosed = true;
     }
 
     public void DoorOpen()
     {
         FindObjectOfType<AudioManager>().Play("Door Open");
         anim.SetBool("Door Open", true);
+        isClosed = false;
     }
 
-
+    void GiveDamage()
+    {
+        if (damageCooldown <= 0)
+        {
+            damageCooldown = 1;
+            Player.GetComponent<PlayerHealthSystem>().health--;
+            SceneChangerAnim.SetTrigger("end");
+        }
+    }
 
     IEnumerator ChangeRoom()
     {
         yield return new WaitForSeconds(0.2f);
         Player.GetComponent<PlayerHealthSystem>().GiveHealth(7);
-        Player.position = nextRoom.GetComponent<DungeonRoom>().doors[(direction + 2) % 4].spawnPoint.position;
+
+        Player.position = nextRoom.GetComponent<DungeonRoom>().GetSpawn();
         FindObjectOfType<Camera>().GetComponent<Transform>().position = Player.position;
 
         thisRoom.SetActive(false);
 
         nextRoom.SetActive(true);
+        DungeonController.SetCurrentRoom(nextRoom.GetComponent<DungeonRoom>());
 
 
     }

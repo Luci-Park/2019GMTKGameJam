@@ -6,7 +6,6 @@ using UnityEngine.UI;
 public class EnemyChecker : MonoBehaviour
 {
     public GameObject[] enemys;
-    public bool EveryMobDead;
     private Text enemysLeft; 
 
     void Start()
@@ -23,12 +22,13 @@ public class EnemyChecker : MonoBehaviour
         
         if (enemys.Length <= 0)
         {
-            
-            EveryMobDead = true;
-        }
-        else
-        {
-            EveryMobDead = false;
+            SendMobDeadMesg();
         }
     }
+    void SendMobDeadMesg()
+    {
+        DungeonController.currentDungeon.EveryMobDead();
+    }
 }
+
+

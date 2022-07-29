@@ -4,125 +4,137 @@ using UnityEngine;
 
 public class DungeonRoom : MonoBehaviour
 {
-    public Door[] doors;
+    public enum RoomType {First, Last, Normal };
+
+    [Tooltip("left, top, right, bottom, in that order")] public Door[] doors;
     public SpriteRenderer background;
-    Door nextWay;
-    Door entrance;
-    bool lastRoom;
-    GameObject checkerObject;
-    EnemyChecker checker;
-    public GameObject SceneChanger;
-    bool done;
-    bool bossSpawned;
     public GameObject bosscanvas;
     public GameObject bossPrefab;
-    public GameObject nextRoom;
     public GameObject Enemy;
+
+    GameObject SceneChanger;
+
+    RoomType roomType;
+    int enterance;
+    
     // Start is called before the first frame 
     private void Awake()
     {
         SceneChanger = GameObject.FindGameObjectWithTag("SceneManager");
-        bossSpawned = false;
-        done = false;
-        lastRoom = false;
-        checkerObject = GameObject.FindGameObjectWithTag("EnemyChecker");
-        checker = checkerObject.GetComponent<EnemyChecker>();
     }
     private void OnEnable()
+    {
+        SetUI();
+        CloseAllDoors();
+        Debug.Log("RoomType = " + roomType);
+    }
+   
+    public void EveryMobDead()
+    {
+        if (roomType == RoomType.Last) SpawnBoss();
+        else
+        {
+            OpenAllDoors();
+        }
+    }
+
+    public Vector3 GetSpawn()
+    {
+        return doors[enterance].spawnPoint.position;
+    }
+
+    public void SetRoomType(RoomType type)
+    {
+        roomType = type;
+    }
+    
+    public void SetEnterance(int enterance)
+    {
+        this.enterance = enterance;
+    }
+
+    public void SetNextRoom(DungeonRoom nextRoom, int exitDir)
+    {
+        for (int i = 0; i<4; i++)
+        {
+            if (i == exitDir)
+            {
+                doors[i].SetRoute(this, nextRoom);
+            }
+            else
+            {
+                doors[i].SetRoute(this, this);
+            }
+        }
+    }
+
+    void SetUI()
     {
         SceneChanger.transform.position = transform.position;
         Vector3 pos = FindObjectOfType<PlayerHealthSystem>().transform.position;
         pos.z = -10;
         FindObjectOfType<Camera>().GetComponent<Transform>().position = pos;
-        if (lastRoom)
-        {
-            foreach(Door door in doors)
-            {
-                door.gameObject.SetActive(false);
-            }
-        }
+        if (roomType == RoomType.Last) SetLastRoom();
+        else if (roomType == RoomType.First) SetFirstRoom();
+        else SetNormalRoom();
     }
-    private void Update()
-    {
-        if (checker.EveryMobDead)
-        {
-            OpenAllDoor();
-        }
-        if (!lastRoom) return;
-        if (checker.EveryMobDead&&!bossSpawned)
-        {
-            bossSpawned = true;
-            GameObject boss = Instantiate(bossPrefab);
-            boss.GetComponent<Transform>().position = transform.position;
-            GameObject canvas = Instantiate(bosscanvas);
-            canvas.GetComponent<Transform>().position = transform.position;
-        }
-    }
-    public void DisableEnemies()
-    {
-        Enemy.SetActive(false);
-    }
-    public void SetDoor(int next, int entry)
-    {
-        nextWay = doors[next];
-        nextWay.GoodDoor = true;
-        entrance = doors[entry];
-        print(nextWay);
-    }
-    public void IsLastRoom(bool isBossRoom)
-    {
-        lastRoom = isBossRoom;
-    }
-    public void TurnAllTriggerOff()
-    {
-        foreach(BoxCollider2D boxCollider in GetComponentsInChildren<BoxCollider2D>())
-        {
-            boxCollider.enabled = false;
-        }
-    }
-    
-    public void SetNextRoom(DungeonRoom nextRoom)
-    {
-        for(int i = 0; i<4; i++)
-        {
-            if (doors[i].GoodDoor)
-            {
-                doors[i].nextRoom = nextRoom.gameObject;
-            }
-            else
-            {
-                doors[i].nextRoom = gameObject;
-            }
-        }
-    }
-    public void ShowOnlyRightDoor()
+    void SetNormalRoom()
     {
         foreach(Door door in doors)
         {
-            if(door.GoodDoor)
-            {
-                continue;
-            }
+            door.gameObject.SetActive(true);
+        }
+        EnableEnemies();
+    }
+    void SetLastRoom()
+    {
+        foreach (Door door in doors)
+        {
             door.gameObject.SetActive(false);
         }
     }
-    void OpenAllDoor()
+    void SetFirstRoom()
     {
-        //door rumbling sound here
+        Debug.Log("setfirstRoom Called");
+        foreach (Door door in doors)
+        {
+            if (door.isGood) door.gameObject.SetActive(true);
+            else door.gameObject.SetActive(false);
+        }
+        DisableEnemies();
+    }
+    void DisableEnemies()
+    {
+        Enemy.SetActive(false);
+    }
+    void EnableEnemies()
+    {
+        Enemy.SetActive(true);
+    }
+
+    void OpenAllDoors()
+    {
         foreach(Door door in doors)
         {
             if (door.isActiveAndEnabled)
                 door.DoorOpen();
         }
     }
-    
+
     void CloseAllDoors()
     {
         foreach (Door door in doors)
         {
-            if(door.isActiveAndEnabled)
-                door.doorClose();
+            if (door.isActiveAndEnabled)
+                door.DoorClose();
         }
-
+    }
+    
+    void SpawnBoss()
+    {
+        GameObject boss = Instantiate(bossPrefab);
+        boss.GetComponent<Transform>().position = transform.position;
+        GameObject canvas = Instantiate(bosscanvas);
+        canvas.GetComponent<Transform>().position = transform.position;
     }
 }

@@ -5,71 +5,106 @@ using UnityEngine.UI;
 
 public class DungeonController : MonoBehaviour
 {
+    public enum Direction { Left, Top, Right, Bottom };
+
+    public static DungeonRoom currentDungeon;
     public int numberOfRooms;
-    public enum Direction { Left, Top, Right, Bottom};
     public GameObject dungeonRoom;
-    Direction[] directions;
+    Direction[] exitDirs;
     DungeonRoom[] dungeonRooms;
     public Sprite[] sprites;
-    // Start is called before the first frame update
-    private void Awake()
+
+    public static void SetCurrentRoom(DungeonRoom room)
+    {
+        currentDungeon = room;
+    }
+
+    void Start()
     {
         dungeonRooms = new DungeonRoom[numberOfRooms];
-        directions = new Direction[numberOfRooms + 1];
-        directions[0] = Direction.Top;
-        for(int i = 1; i<=numberOfRooms; i++)
+        SetDirections(numberOfRooms);
+        SetDungeons();
+    }
+
+    void SetDirections(int numberOfRooms)
+    {
+        exitDirs = new Direction[numberOfRooms];
+        exitDirs[0] = Direction.Top;
+        for (int i = 1; i < numberOfRooms; i++)
         {
-            int dir; 
+            int dir;
             do
             {
                 dir = Random.Range(0, 4);
-            } while (Mathf.Abs((int)directions[i-1] - dir) == 2);
-            directions[i] = (Direction)dir;
+            } while (Mathf.Abs((int)exitDirs[i - 1] - dir) == 2);
+            exitDirs[i] = (Direction)dir;
         }
-    }
-    void Start()
-    {
-        Vector3 pos = Vector3.zero;
-        for(int i = 1; i<=numberOfRooms; i++)
+
+        foreach(Direction d in exitDirs)
         {
-            GameObject newDungeon = Instantiate(dungeonRoom);
-            newDungeon.GetComponent<DungeonRoom>().background.sprite = sprites[i - 1];
-            newDungeon.transform.position = pos;
-            newDungeon.GetComponent<DungeonRoom>().SetDoor((int)directions[i], ((int)directions[i - 1]+2)% 4);
-            dungeonRooms[i - 1] = newDungeon.GetComponent<DungeonRoom>();
-            print("entrance " + ((int)directions[i - 1] + 2) % 4 + " exit" + (int)directions[i]);
-            switch ((int)directions[i])
-            {
-                case 0:
-                    pos += new Vector3(-newDungeon.GetComponent<DungeonRoom>().background.bounds.size.x, 0);
-                    break;
-                case 1:
-                    pos += new Vector3(0, newDungeon.GetComponent<DungeonRoom>().background.bounds.size.y);
-                    break;
-                case 2:
-                    pos += new Vector3(newDungeon.GetComponent<DungeonRoom>().background.bounds.size.x, 0);
-                    break;
-                case 3:
-                    pos += new Vector3(0, -newDungeon.GetComponent<DungeonRoom>().background.bounds.size.y);
-                    break;
-            }
-            if (i != 1)
-            {
-                dungeonRooms[i - 1].gameObject.SetActive(false);
-                dungeonRooms[i - 2].SetNextRoom(dungeonRooms[i - 1]);
-                if (i == numberOfRooms)
-                {
-                    dungeonRooms[i - 1].IsLastRoom(true);
-                }
-            }
+            print(d);
         }
-        dungeonRooms[0].ShowOnlyRightDoor();
-        dungeonRooms[0].DisableEnemies();
-        dungeonRooms[0].gameObject.SetActive(true);
     }
 
-    // Update is called once per frame
-    void Update()
+
+    void SetDungeons()
     {
+        Vector3 pos = Vector3.zero;
+        for (int i = 0; i < numberOfRooms; i++)
+        {
+            dungeonRooms[i] = CreateDungeon(pos, i);
+
+            switch ((int)exitDirs[i])
+            {
+                case 0:
+                    pos += new Vector3(-dungeonRooms[i].background.bounds.size.x, 0);
+                    break;
+                case 1:
+                    pos += new Vector3(0, dungeonRooms[i].background.bounds.size.y);
+                    break;
+                case 2:
+                    pos += new Vector3(dungeonRooms[i].background.bounds.size.x, 0);
+                    break;
+                case 3:
+                    pos += new Vector3(0, -dungeonRooms[i].background.bounds.size.y);
+                    break;
+            }
+            if (i > 0)
+            {
+                int beforeRoomExit = (int)exitDirs[i - 1];
+
+                dungeonRooms[i - 1].SetNextRoom(dungeonRooms[i], beforeRoomExit);
+            }
+            dungeonRooms[i].gameObject.SetActive(false);
+        }
+        dungeonRooms[0].gameObject.SetActive(true);
+        currentDungeon = dungeonRooms[0];
+    }
+
+    DungeonRoom CreateDungeon(Vector3 pos, int idx)
+    {
+        GameObject newDungeonObject = Instantiate(dungeonRoom);
+        newDungeonObject.transform.position = pos;
+        
+        DungeonRoom newDungeon = newDungeonObject.GetComponent<DungeonRoom>();
+        newDungeon.background.sprite = sprites[idx];
+
+        if (idx == 0)
+        {
+            newDungeon.SetRoomType(DungeonRoom.RoomType.First);
+            newDungeon.SetEnterance(-1);
+        }
+        else if (idx == numberOfRooms - 1)
+        {
+            newDungeon.SetRoomType(DungeonRoom.RoomType.Last);
+            newDungeon.SetEnterance(((int)exitDirs[idx - 1] + 2) % 4);
+        }
+        else 
+        { 
+            newDungeon.SetRoomType(DungeonRoom.RoomType.Normal);
+            newDungeon.SetEnterance(((int)exitDirs[idx - 1] + 2) % 4);
+        }
+
+        return newDungeon;
     }
 }

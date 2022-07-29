@@ -467,8 +467,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 8332992858007698203}
-  - {fileID: 2856377237115963892}
   - {fileID: 8116597353730070418}
+  - {fileID: 2856377237115963892}
   - {fileID: 8912266091269934946}
   - {fileID: 1834950412894690820}
   - {fileID: 8332992858809441358}
@@ -501,7 +501,6 @@ MonoBehaviour:
     type: 3}
   bossPrefab: {fileID: 43490918232229862, guid: b4a1d69ebfc494f30a5ba81abdca4beb,
     type: 3}
-  nextRoom: {fileID: 0}
   Enemy: {fileID: 8332992858809441359}
 --- !u!1 &8332992858007698204
 GameObject:
@@ -737,41 +736,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Door Right
       objectReference: {fileID: 0}
-    - target: {fileID: 9059950665042788898, guid: 88c21b2df6590471eadfa0e6089a3194,
-        type: 3}
-      propertyPath: GoodRightDoor
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9059950665042788898, guid: 88c21b2df6590471eadfa0e6089a3194,
-        type: 3}
-      propertyPath: GoodDoor
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9059950665042788898, guid: 88c21b2df6590471eadfa0e6089a3194,
-        type: 3}
-      propertyPath: thisRoom
-      value: 
-      objectReference: {fileID: 8332992857752193451}
-    - target: {fileID: 9059950665042788898, guid: 88c21b2df6590471eadfa0e6089a3194,
-        type: 3}
-      propertyPath: GoodLeftDoor
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9059950665042788898, guid: 88c21b2df6590471eadfa0e6089a3194,
-        type: 3}
-      propertyPath: GoodBottomDoor
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9059950665042788898, guid: 88c21b2df6590471eadfa0e6089a3194,
-        type: 3}
-      propertyPath: direction
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 9059950665042788898, guid: 88c21b2df6590471eadfa0e6089a3194,
-        type: 3}
-      propertyPath: spawnPoint
-      value: 
-      objectReference: {fileID: 7267913471878997246}
     - target: {fileID: 9059950664176550107, guid: 88c21b2df6590471eadfa0e6089a3194,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -832,11 +796,56 @@ PrefabInstance:
       propertyPath: m_LocalRotation.w
       value: 0.7071068
       objectReference: {fileID: 0}
+    - target: {fileID: 9059950665042788897, guid: 88c21b2df6590471eadfa0e6089a3194,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9059950665042788898, guid: 88c21b2df6590471eadfa0e6089a3194,
+        type: 3}
+      propertyPath: GoodRightDoor
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9059950665042788898, guid: 88c21b2df6590471eadfa0e6089a3194,
+        type: 3}
+      propertyPath: GoodDoor
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9059950665042788898, guid: 88c21b2df6590471eadfa0e6089a3194,
+        type: 3}
+      propertyPath: thisRoom
+      value: 
+      objectReference: {fileID: 8332992857752193451}
+    - target: {fileID: 9059950665042788898, guid: 88c21b2df6590471eadfa0e6089a3194,
+        type: 3}
+      propertyPath: GoodLeftDoor
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9059950665042788898, guid: 88c21b2df6590471eadfa0e6089a3194,
+        type: 3}
+      propertyPath: GoodBottomDoor
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9059950665042788898, guid: 88c21b2df6590471eadfa0e6089a3194,
+        type: 3}
+      propertyPath: direction
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 9059950665042788898, guid: 88c21b2df6590471eadfa0e6089a3194,
+        type: 3}
+      propertyPath: spawnPoint
+      value: 
+      objectReference: {fileID: 7267913471878997246}
+    - target: {fileID: 9059950665042788898, guid: 88c21b2df6590471eadfa0e6089a3194,
+        type: 3}
+      propertyPath: SceneChangerAnim
+      value: 
+      objectReference: {fileID: 8912266090388196760}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 88c21b2df6590471eadfa0e6089a3194, type: 3}
---- !u!4 &8912266091269934946 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 9059950664176550107, guid: 88c21b2df6590471eadfa0e6089a3194,
+--- !u!95 &8912266090388196760 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 9059950665042788897, guid: 88c21b2df6590471eadfa0e6089a3194,
     type: 3}
   m_PrefabInstance: {fileID: 438489544693223353}
   m_PrefabAsset: {fileID: 0}
@@ -852,6 +861,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7f7c91749ea2a14aa54d8112a6b8bad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!4 &8912266091269934946 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 9059950664176550107, guid: 88c21b2df6590471eadfa0e6089a3194,
+    type: 3}
+  m_PrefabInstance: {fileID: 438489544693223353}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1223457644065544409
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -864,31 +879,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Door Left
       objectReference: {fileID: 0}
-    - target: {fileID: 6942697350815552795, guid: bb2f0dcca942f498992fa0494f648383,
-        type: 3}
-      propertyPath: thisRoom
-      value: 
-      objectReference: {fileID: 8332992857752193451}
-    - target: {fileID: 6942697350815552795, guid: bb2f0dcca942f498992fa0494f648383,
-        type: 3}
-      propertyPath: GoodDoor
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6942697350815552795, guid: bb2f0dcca942f498992fa0494f648383,
-        type: 3}
-      propertyPath: GoodRightDoor
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6942697350815552795, guid: bb2f0dcca942f498992fa0494f648383,
-        type: 3}
-      propertyPath: GoodLeftDoor
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6942697350815552795, guid: bb2f0dcca942f498992fa0494f648383,
-        type: 3}
-      propertyPath: spawnPoint
-      value: 
-      objectReference: {fileID: 9143293469312715897}
     - target: {fileID: 6942697350871093067, guid: bb2f0dcca942f498992fa0494f648383,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -897,7 +887,7 @@ PrefabInstance:
     - target: {fileID: 6942697350871093067, guid: bb2f0dcca942f498992fa0494f648383,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6942697350871093067, guid: bb2f0dcca942f498992fa0494f648383,
         type: 3}
@@ -927,7 +917,7 @@ PrefabInstance:
     - target: {fileID: 6942697350871093067, guid: bb2f0dcca942f498992fa0494f648383,
         type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6942697350871093067, guid: bb2f0dcca942f498992fa0494f648383,
         type: 3}
@@ -949,8 +939,50 @@ PrefabInstance:
       propertyPath: m_LocalScale.y
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6942697350815552795, guid: bb2f0dcca942f498992fa0494f648383,
+        type: 3}
+      propertyPath: thisRoom
+      value: 
+      objectReference: {fileID: 8332992857752193451}
+    - target: {fileID: 6942697350815552795, guid: bb2f0dcca942f498992fa0494f648383,
+        type: 3}
+      propertyPath: GoodDoor
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6942697350815552795, guid: bb2f0dcca942f498992fa0494f648383,
+        type: 3}
+      propertyPath: GoodRightDoor
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6942697350815552795, guid: bb2f0dcca942f498992fa0494f648383,
+        type: 3}
+      propertyPath: GoodLeftDoor
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6942697350815552795, guid: bb2f0dcca942f498992fa0494f648383,
+        type: 3}
+      propertyPath: spawnPoint
+      value: 
+      objectReference: {fileID: 9143293469312715897}
+    - target: {fileID: 6942697350815552795, guid: bb2f0dcca942f498992fa0494f648383,
+        type: 3}
+      propertyPath: SceneChangerAnim
+      value: 
+      objectReference: {fileID: 8116597353666530753}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bb2f0dcca942f498992fa0494f648383, type: 3}
+--- !u!4 &8116597353730070418 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6942697350871093067, guid: bb2f0dcca942f498992fa0494f648383,
+    type: 3}
+  m_PrefabInstance: {fileID: 1223457644065544409}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &8116597353666530753 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 6942697350815552792, guid: bb2f0dcca942f498992fa0494f648383,
+    type: 3}
+  m_PrefabInstance: {fileID: 1223457644065544409}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &8116597353666530754 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6942697350815552795, guid: bb2f0dcca942f498992fa0494f648383,
@@ -963,12 +995,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7f7c91749ea2a14aa54d8112a6b8bad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!4 &8116597353730070418 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 6942697350871093067, guid: bb2f0dcca942f498992fa0494f648383,
-    type: 3}
-  m_PrefabInstance: {fileID: 1223457644065544409}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &8332992857530061099
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1189,7 +1215,7 @@ PrefabInstance:
     - target: {fileID: 6054912868326066660, guid: 7f691231205ff4ddb80577028d8fa4e3,
         type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 6054912868326066660, guid: 7f691231205ff4ddb80577028d8fa4e3,
         type: 3}
@@ -1246,8 +1272,19 @@ PrefabInstance:
       propertyPath: spawnPoint
       value: 
       objectReference: {fileID: 1367473247927817344}
+    - target: {fileID: 6054912866766285147, guid: 7f691231205ff4ddb80577028d8fa4e3,
+        type: 3}
+      propertyPath: SceneChangerAnim
+      value: 
+      objectReference: {fileID: 2856377237836441928}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7f691231205ff4ddb80577028d8fa4e3, type: 3}
+--- !u!4 &2856377237115963892 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6054912868326066660, guid: 7f691231205ff4ddb80577028d8fa4e3,
+    type: 3}
+  m_PrefabInstance: {fileID: 8332992858324418576}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &2856377237836441931 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6054912866766285147, guid: 7f691231205ff4ddb80577028d8fa4e3,
@@ -1260,9 +1297,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7f7c91749ea2a14aa54d8112a6b8bad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!4 &2856377237115963892 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 6054912868326066660, guid: 7f691231205ff4ddb80577028d8fa4e3,
+--- !u!95 &2856377237836441928 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 6054912866766285144, guid: 7f691231205ff4ddb80577028d8fa4e3,
     type: 3}
   m_PrefabInstance: {fileID: 8332992858324418576}
   m_PrefabAsset: {fileID: 0}
@@ -1538,8 +1575,19 @@ PrefabInstance:
       propertyPath: spawnPoint
       value: 
       objectReference: {fileID: 2620397578243644293}
+    - target: {fileID: 7697691313022295277, guid: fa2cf3247c65a479399a0646fc74df28,
+        type: 3}
+      propertyPath: SceneChangerAnim
+      value: 
+      objectReference: {fileID: 1834950413801893731}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fa2cf3247c65a479399a0646fc74df28, type: 3}
+--- !u!4 &1834950412894690820 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7697691314130300299, guid: fa2cf3247c65a479399a0646fc74df28,
+    type: 3}
+  m_PrefabInstance: {fileID: 8332992858861859727}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &1834950413801893730 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7697691313022295277, guid: fa2cf3247c65a479399a0646fc74df28,
@@ -1552,9 +1600,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7f7c91749ea2a14aa54d8112a6b8bad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!4 &1834950412894690820 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 7697691314130300299, guid: fa2cf3247c65a479399a0646fc74df28,
+--- !u!95 &1834950413801893731 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 7697691313022295276, guid: fa2cf3247c65a479399a0646fc74df28,
     type: 3}
   m_PrefabInstance: {fileID: 8332992858861859727}
   m_PrefabAsset: {fileID: 0}
