@@ -4,7 +4,7 @@
 This was a game created for the [2019 GMTK Game Jam (only one)](https://www.youtube.com/watch?v=o-WrQ77zUvA&t=3s).
 We were a pack of strangers who got together a few days before the jam.
 
-#What is it?
+# What is it?
 This is a shooter dungeon crawler. The dungeon is a room with 3 closed doors and packed with enemys. All door will open, but only one is the right way.
 
 # Developers
