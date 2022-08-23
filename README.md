@@ -1,5 +1,5 @@
 # There's Only One Way(2019.08.03~2019.08.06)
-##[Link](https://luci-park.itch.io/oneway)
+## [Link](https://luci-park.itch.io/oneway)
 
 # Background
 This was a game created for the [2019 GMTK Game Jam (only one)](https://www.youtube.com/watch?v=o-WrQ77zUvA&t=3s).
