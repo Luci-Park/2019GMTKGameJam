@@ -14,9 +14,11 @@ public class DungeonRoom : MonoBehaviour
 
     GameObject SceneChanger;
 
+
     RoomType roomType;
     int enterance;
-    
+    bool bossSpawned = false;
+
     // Start is called before the first frame 
     private void Awake()
     {
@@ -31,7 +33,11 @@ public class DungeonRoom : MonoBehaviour
    
     public void EveryMobDead()
     {
-        if (roomType == RoomType.Last) SpawnBoss();
+        if (roomType == RoomType.Last && !bossSpawned)
+        {
+            SpawnBoss();
+            bossSpawned = true;
+        }
         else
         {
             OpenAllDoors();
