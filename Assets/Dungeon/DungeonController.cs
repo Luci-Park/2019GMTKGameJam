@@ -22,30 +22,24 @@ public class DungeonController : MonoBehaviour
     void Start()
     {
         dungeonRooms = new DungeonRoom[numberOfRooms];
-        SetDirections(numberOfRooms);
+        SetDirectionsForAllRoom(numberOfRooms);
         SetDungeons();
     }
 
-    void SetDirections(int numberOfRooms)
+    void SetDirectionsForAllRoom(int numberOfRooms)
     {
         exitDirs = new Direction[numberOfRooms];
         exitDirs[0] = Direction.Top;
         for (int i = 1; i < numberOfRooms; i++)
         {
-            int dir;
+            Direction dir;
             do
             {
-                dir = Random.Range(0, 4);
-            } while (Mathf.Abs((int)exitDirs[i - 1] - dir) == 2);
-            exitDirs[i] = (Direction)dir;
-        }
-
-        foreach(Direction d in exitDirs)
-        {
-            print(d);
+                dir = (Direction) Random.Range(0, 4);
+            } while (Mathf.Abs(exitDirs[i - 1] - dir) == 2);//before exit - 2 = this room's entrance;
+            exitDirs[i] = dir;
         }
     }
-
 
     void SetDungeons()
     {
@@ -54,18 +48,18 @@ public class DungeonController : MonoBehaviour
         {
             dungeonRooms[i] = CreateDungeon(pos, i);
 
-            switch ((int)exitDirs[i])
+            switch (exitDirs[i])
             {
-                case 0:
+                case Direction.Left:
                     pos += new Vector3(-dungeonRooms[i].background.bounds.size.x, 0);
                     break;
-                case 1:
+                case Direction.Top:
                     pos += new Vector3(0, dungeonRooms[i].background.bounds.size.y);
                     break;
-                case 2:
+                case Direction.Right:
                     pos += new Vector3(dungeonRooms[i].background.bounds.size.x, 0);
                     break;
-                case 3:
+                case Direction.Bottom:
                     pos += new Vector3(0, -dungeonRooms[i].background.bounds.size.y);
                     break;
             }
@@ -81,28 +75,28 @@ public class DungeonController : MonoBehaviour
         currentDungeon = dungeonRooms[0];
     }
 
-    DungeonRoom CreateDungeon(Vector3 pos, int idx)
+    DungeonRoom CreateDungeon(Vector3 pos, int roomIdx)
     {
         GameObject newDungeonObject = Instantiate(dungeonRoom);
         newDungeonObject.transform.position = pos;
         
         DungeonRoom newDungeon = newDungeonObject.GetComponent<DungeonRoom>();
-        newDungeon.background.sprite = sprites[idx];
+        newDungeon.background.sprite = sprites[roomIdx];
 
-        if (idx == 0)
+        if (roomIdx == 0)
         {
             newDungeon.SetRoomType(DungeonRoom.RoomType.First);
             newDungeon.SetEnterance(-1);
         }
-        else if (idx == numberOfRooms - 1)
+        else if (roomIdx == numberOfRooms - 1)
         {
             newDungeon.SetRoomType(DungeonRoom.RoomType.Last);
-            newDungeon.SetEnterance(((int)exitDirs[idx - 1] + 2) % 4);
+            newDungeon.SetEnterance(((int)exitDirs[roomIdx - 1] + 2) % 4);
         }
         else 
         { 
             newDungeon.SetRoomType(DungeonRoom.RoomType.Normal);
-            newDungeon.SetEnterance(((int)exitDirs[idx - 1] + 2) % 4);
+            newDungeon.SetEnterance(((int)exitDirs[roomIdx - 1] + 2) % 4);
         }
 
         return newDungeon;
